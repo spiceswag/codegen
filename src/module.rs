@@ -42,6 +42,12 @@ impl Module {
         &mut self.scope
     }
 
+    /// Set the module documentation.
+    pub fn doc(&mut self, docs: &str) -> &mut Self {
+        self.docs = Some(Docs::new(docs));
+        self
+    }
+
     /// Set the module visibility.
     pub fn vis(&mut self, vis: &str) -> &mut Self {
         self.vis = Some(vis.to_string());
