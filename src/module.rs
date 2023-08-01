@@ -170,6 +170,10 @@ impl Module {
 
     /// Formats the module using the given formatter.
     pub fn fmt(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
+        if let Some(docs) = &self.docs {
+            docs.fmt(fmt)?;
+        }
+
         if let Some(ref vis) = self.vis {
             write!(fmt, "{} ", vis)?;
         }

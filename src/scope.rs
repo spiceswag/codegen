@@ -39,6 +39,15 @@ impl Scope {
         }
     }
 
+    /// Set the documentation for the scope.
+    ///
+    /// The documentation comments are formatted as
+    /// inner documentation comments (`//!`).
+    pub fn doc(&mut self, docs: &str) -> &mut Self {
+        self.docs = Some(Docs::new_inner(docs));
+        self
+    }
+
     /// Import a type into the scope.
     ///
     /// This results in a new `use` statement being added to the beginning of
@@ -235,6 +244,10 @@ impl Scope {
 
     /// Formats the scope using the given formatter.
     pub fn fmt(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
+        if let Some(docs) = &self.docs {
+            docs.fmt(fmt)?;
+        }
+
         self.fmt_imports(fmt)?;
 
         if !self.imports.is_empty() {

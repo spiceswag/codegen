@@ -15,7 +15,6 @@ pub struct Trait {
     parents: Vec<Type>,
     associated_tys: Vec<AssociatedType>,
     fns: Vec<Function>,
-    macros: Vec<String>,
 }
 
 impl Trait {
@@ -26,7 +25,6 @@ impl Trait {
             parents: vec![],
             associated_tys: vec![],
             fns: vec![],
-            macros: vec![],
         }
     }
 
