@@ -22,6 +22,9 @@ pub struct Scope {
     /// Scope documentation
     docs: Option<Docs>,
 
+    /// Lint attributes to supress for the entire scope
+    allow: Vec<String>,
+
     /// Imports
     imports: IndexMap<String, IndexMap<String, Import>>,
 
@@ -34,6 +37,7 @@ impl Scope {
     pub fn new() -> Self {
         Scope {
             docs: None,
+            allow: vec![],
             imports: IndexMap::new(),
             items: vec![],
         }
@@ -45,6 +49,15 @@ impl Scope {
     /// inner documentation comments (`//!`).
     pub fn doc(&mut self, docs: &str) -> &mut Self {
         self.docs = Some(Docs::new_inner(docs));
+        self
+    }
+
+    /// Specify a lint attribute to supress for the entire scope
+    ///
+    /// The allow attributes are formatted as
+    /// inner attributes (`#![allow()]`)
+    pub fn allow(&mut self, allow: &str) -> &mut Self {
+        self.allow.push(allow.to_owned());
         self
     }
 
@@ -246,7 +259,10 @@ impl Scope {
     pub fn fmt(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
         if let Some(docs) = &self.docs {
             docs.fmt(fmt)?;
+            write!(fmt, "\n")?;
         }
+
+        self.fmt_allow(fmt)?;
 
         self.fmt_imports(fmt)?;
 
@@ -323,6 +339,16 @@ impl Scope {
                     }
                 }
             }
+        }
+
+        Ok(())
+    }
+
+    // The canonical way to output more than one allow at the same time is `#![allow(a, b, c)]`
+    // but to keep consistent in the library I have to output `#![allow(a)] \n #![allow(b)]`
+    fn fmt_allow(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
+        for allow in &self.allow {
+            write!(fmt, "#![allow({})]\n", allow)?;
         }
 
         Ok(())
