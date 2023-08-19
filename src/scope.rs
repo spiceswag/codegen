@@ -344,10 +344,6 @@ impl Scope {
     // The canonical way to output more than one allow at the same time is `#![allow(a, b, c)]`
     // but to keep consistent in the library I have to output `#![allow(a)] \n #![allow(b)]`
     fn fmt_allow(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
-        for allow in &self.allow {
-            write!(fmt, "#![allow({})]\n", allow)?;
-        }
-
-        Ok(())
+        write!(fmt, "#![allow({})]", self.allow.join(", "))
     }
 }

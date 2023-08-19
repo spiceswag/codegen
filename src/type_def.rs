@@ -108,11 +108,7 @@ impl TypeDef {
     }
 
     fn fmt_allow(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
-        for allow in &self.allow {
-            write!(fmt, "#[allow({})]\n", allow)?;
-        }
-
-        Ok(())
+        write!(fmt, "#![allow({})]", self.allow.join(", "))
     }
 
     fn fmt_repr(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
