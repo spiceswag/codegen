@@ -102,13 +102,10 @@ impl Scope {
     where
         String: PartialEq<Q>,
     {
-        self.items
-            .iter_mut()
-            .filter_map(|item| match item {
-                &mut Item::Module(ref mut module) if module.name == *name => Some(module),
-                _ => None,
-            })
-            .next()
+        self.items.iter_mut().find_map(|item| match item {
+            &mut Item::Module(ref mut module) if module.name == *name => Some(module),
+            _ => None,
+        })
     }
 
     /// Returns a mutable reference to a module if it is exists in this scope.
