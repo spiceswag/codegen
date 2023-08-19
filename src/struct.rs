@@ -75,6 +75,12 @@ impl Struct {
         self
     }
 
+    /// Add an attribute `#[attribute]` to the struct.
+    pub fn attribute(&mut self, attr: &str) -> &mut Self {
+        self.type_def.r#macro(&format!("#[{}]", attr));
+        self
+    }
+
     /// Push a named field to the struct.
     ///
     /// A struct can either set named fields with this function or tuple fields

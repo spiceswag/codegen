@@ -72,6 +72,12 @@ impl Enum {
         self
     }
 
+    /// Add an attribute `#[attribute]` to the struct.
+    pub fn attribute(&mut self, attr: &str) -> &mut Self {
+        self.type_def.r#macro(&format!("#[{}]", attr));
+        self
+    }
+
     /// Push a variant to the enum, returning a mutable reference to it.
     pub fn new_variant(&mut self, name: &str) -> &mut Variant {
         self.push_variant(Variant::new(name));
