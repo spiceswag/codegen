@@ -24,6 +24,12 @@ impl TypeAlias {
         self
     }
 
+    /// Add a generic to the type alias.
+    pub fn generic(&mut self, name: &str) -> &mut Self {
+        self.type_def.ty.generic(name);
+        self
+    }
+
     /// Add a `where` bound to the type alias.
     ///
     /// Do note that these are as of the current version of rustc not enforced.
