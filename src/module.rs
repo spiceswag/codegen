@@ -4,6 +4,7 @@ use crate::docs::Docs;
 use crate::formatter::Formatter;
 use crate::function::Function;
 use crate::scope::Scope;
+use crate::{Type, TypeAlias};
 
 use crate::r#enum::Enum;
 use crate::r#impl::Impl;
@@ -165,6 +166,17 @@ impl Module {
     /// Push a trait definition
     pub fn push_trait(&mut self, item: Trait) -> &mut Self {
         self.scope.push_trait(item);
+        self
+    }
+
+    /// Push a new type alias (`type`) and return a new mutable reference to it.
+    pub fn new_type_alias(&mut self, name: &str, actual_type: Type) -> &mut TypeAlias {
+        self.scope.new_type_alias(name, actual_type)
+    }
+
+    /// Push a type alias (`type`)
+    pub fn push_type_alias(&mut self, item: TypeAlias) -> &mut Self {
+        self.scope.push_type_alias(item);
         self
     }
 
