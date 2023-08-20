@@ -38,6 +38,7 @@ mod import;
 mod item;
 mod module;
 mod scope;
+mod type_alias;
 mod type_def;
 mod variant;
 
@@ -47,7 +48,6 @@ mod r#struct;
 mod r#trait;
 mod r#type;
 
-
 pub use associated_type::*;
 pub use block::*;
 pub use field::*;
@@ -56,6 +56,7 @@ pub use function::*;
 pub use import::*;
 pub use module::*;
 pub use scope::*;
+pub use type_alias::*;
 pub use variant::*;
 
 pub use r#enum::*;

@@ -8,6 +8,7 @@ use crate::function::Function;
 use crate::import::Import;
 use crate::item::Item;
 use crate::module::Module;
+use crate::{Type, TypeAlias};
 
 use crate::r#enum::Enum;
 use crate::r#impl::Impl;
@@ -230,6 +231,22 @@ impl Scope {
         self
     }
 
+    /// Push a new type alias (`type`) and return a new mutable reference to it.
+    pub fn new_type_alias(&mut self, name: &str, actual_type: Type) -> &mut TypeAlias {
+        self.push_type_alias(TypeAlias::new(name, actual_type));
+
+        match *self.items.last_mut().unwrap() {
+            Item::TypeAlias(ref mut v) => v,
+            _ => unreachable!(),
+        }
+    }
+
+    /// Push a type alias (`type`)
+    pub fn push_type_alias(&mut self, item: TypeAlias) -> &mut Self {
+        self.items.push(Item::TypeAlias(item));
+        self
+    }
+
     /// Push a raw string to the scope.
     ///
     /// This string will be included verbatim in the formatted string.
@@ -279,6 +296,7 @@ impl Scope {
                 Item::Trait(ref v) => v.fmt(fmt)?,
                 Item::Enum(ref v) => v.fmt(fmt)?,
                 Item::Impl(ref v) => v.fmt(fmt)?,
+                Item::TypeAlias(ref v) => v.fmt(fmt)?,
                 Item::Raw(ref v) => {
                     write!(fmt, "{}\n", v)?;
                 }

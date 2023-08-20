@@ -1,5 +1,6 @@
 use crate::function::Function;
 use crate::module::Module;
+use crate::TypeAlias;
 
 use crate::r#enum::Enum;
 use crate::r#impl::Impl;
@@ -14,5 +15,6 @@ pub enum Item {
     Trait(Trait),
     Enum(Enum),
     Impl(Impl),
+    TypeAlias(TypeAlias),
     Raw(String),
 }
