@@ -108,7 +108,10 @@ impl TypeDef {
     }
 
     fn fmt_allow(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
-        write!(fmt, "#![allow({})]", self.allow.join(", "))
+        if !self.allow.is_empty() {
+            writeln!(fmt, "#![allow({})]", self.allow.join(", "))?;
+        }
+        Ok(())
     }
 
     fn fmt_repr(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
